@@ -44,7 +44,7 @@ mode = st.sidebar.radio("메뉴", ["학생용 제출", "관리자 페이지"])
 # -----------------------
 # 학생용 페이지
 # -----------------------
-if mode == "건의사항 제출":
+if mode == "학생용 제출":
     st.title("📮 익명 건의함")
     st.write("건의사항은 익명으로만 보이니 자유롭게 의견을 남겨줘!")
 
@@ -55,7 +55,7 @@ if mode == "건의사항 제출":
 
     if submitted:
         if not title.strip() or not content.strip():
-            st.error("내용 입력")
+            st.error("제목과 내용을 모두 입력해줘.")
         else:
             save_submission(title.strip(), content.strip())
             st.success("제출 완료")
@@ -80,4 +80,4 @@ else:
         if admin_password:
             st.error("비밀번호가 올바르지 않아!")
         else:
-            st.info("관리자 비밀번호를 입력")
+            st.info("완료")

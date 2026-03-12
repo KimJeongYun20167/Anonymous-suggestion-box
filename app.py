@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from supabase import create_client, Client
 
-st.set_page_config(page_title="2-5 익명 건의함", page_icon="📮", layout="centered")
+st.set_page_config(page_title="📮 2-5 익명 건의함", page_icon="📮", layout="centered")
 
 # -----------------------
 # Supabase 연결
@@ -45,7 +45,7 @@ mode = st.sidebar.radio("메뉴", ["학생용 제출", "관리자 페이지"])
 # 학생용 페이지
 # -----------------------
 if mode == "학생용 제출":
-    st.title("📮 익명 건의함")
+    st.title("📮 2-5 익명 건의함")
     st.write("건의사항은 익명으로만 보이니 자유롭게 의견을 남겨줘!")
 
     with st.form("suggestion_form"):
@@ -57,8 +57,12 @@ if mode == "학생용 제출":
         if not title.strip() or not content.strip():
             st.error("제목과 내용을 모두 입력해줘.")
         else:
-            save_submission(title.strip(), content.strip())
-            st.success("제출 완료")
+            try:
+                save_submission(title.strip(), content.strip())
+                st.success("제출 완료!")
+            except Exception as e:
+                st.error("제출 중 오류가 발생했어. Supabase 설정을 다시 확인해줘.")
+                st.exception(e)
 
 # -----------------------
 # 관리자 페이지
@@ -69,15 +73,21 @@ else:
 
     if admin_password == st.secrets["admin"]["password"]:
         st.success("관리자 인증 완료")
-        df = load_submissions()
 
-        if df.empty:
-            st.info("제출된 글이 아직 없어.")
-        else:
-            df = df[["id", "created_at", "title", "content", "status"]]
-            st.dataframe(df, use_container_width=True)
+        try:
+            df = load_submissions()
+
+            if df.empty:
+                st.info("제출된 글이 아직 없어.")
+            else:
+                df = df[["id", "created_at", "title", "content", "status"]]
+                st.dataframe(df, use_container_width=True)
+        except Exception as e:
+            st.error("관리자 데이터 조회 중 오류가 발생했어. Supabase 설정을 다시 확인해줘.")
+            st.exception(e)
+
     else:
         if admin_password:
             st.error("비밀번호가 올바르지 않아!")
         else:
-            st.info("완료")
+            st.info("관리자 비밀번호를 입력해줘.")

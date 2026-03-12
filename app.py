@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from supabase import create_client, Client
 
-st.set_page_config(page_title="익명 건의함", page_icon="📮", layout="centered")
+st.set_page_config(page_title="2-5 익명 건의함", page_icon="📮", layout="centered")
 
 # -----------------------
 # Supabase 연결
@@ -44,9 +44,9 @@ mode = st.sidebar.radio("메뉴", ["학생용 제출", "관리자 페이지"])
 # -----------------------
 # 학생용 페이지
 # -----------------------
-if mode == "학생용 제출":
+if mode == "건의사항 제출":
     st.title("📮 익명 건의함")
-    st.write("익명으로 자유롭게 의견을 남겨줘.")
+    st.write("건의사항은 익명으로만 보이니 자유롭게 의견을 남겨줘!")
 
     with st.form("suggestion_form"):
         title = st.text_input("제목")
@@ -55,10 +55,10 @@ if mode == "학생용 제출":
 
     if submitted:
         if not title.strip() or not content.strip():
-            st.error("제목과 내용을 모두 입력해줘.")
+            st.error("내용 입력")
         else:
             save_submission(title.strip(), content.strip())
-            st.success("제출이 완료되었어.")
+            st.success("제출 완료")
 
 # -----------------------
 # 관리자 페이지
@@ -78,6 +78,6 @@ else:
             st.dataframe(df, use_container_width=True)
     else:
         if admin_password:
-            st.error("비밀번호가 올바르지 않아.")
+            st.error("비밀번호가 올바르지 않아!")
         else:
-            st.info("관리자 비밀번호를 입력해줘.")
+            st.info("관리자 비밀번호를 입력")

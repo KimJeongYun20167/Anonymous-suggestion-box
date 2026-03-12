@@ -2,15 +2,19 @@ import streamlit as st
 import pandas as pd
 from supabase import create_client, Client
 
-st.set_page_config(page_title="📮 2-5 익명 건의함", page_icon="📮", layout="centered")
+st.set_page_config(
+    page_title="📮 2-5 익명 건의함",
+    page_icon="📮",
+    layout="centered"
+)
 
 # -----------------------
 # Supabase 연결
 # -----------------------
 @st.cache_resource
 def init_supabase() -> Client:
-    url = st.secrets["supabase"]["url"]
-    key = st.secrets["supabase"]["key"]
+    url = st.secrets["supabase"]["url"].strip()
+    key = st.secrets["supabase"]["key"].strip()
     return create_client(url, key)
 
 supabase = init_supabase()
@@ -24,7 +28,8 @@ def save_submission(title: str, content: str):
         "content": content,
         "status": "미처리"
     }
-    supabase.table("suggestions").insert(data).execute()
+    response = supabase.table("suggestions").insert(data).execute()
+    return response
 
 def load_submissions():
     response = (
@@ -60,8 +65,9 @@ if mode == "학생용 제출":
             try:
                 save_submission(title.strip(), content.strip())
                 st.success("제출 완료!")
+                st.balloons()
             except Exception as e:
-                st.error("제출 중 오류가 발생했어. Supabase 설정을 다시 확인해줘.")
+                st.error("제출 중 오류가 발생했어. Supabase 설정이나 정책을 다시 확인해줘.")
                 st.exception(e)
 
 # -----------------------
@@ -80,10 +86,12 @@ else:
             if df.empty:
                 st.info("제출된 글이 아직 없어.")
             else:
-                df = df[["id", "created_at", "title", "content", "status"]]
+                wanted_cols = ["id", "created_at", "title", "content", "status"]
+                existing_cols = [col for col in wanted_cols if col in df.columns]
+                df = df[existing_cols]
                 st.dataframe(df, use_container_width=True)
         except Exception as e:
-            st.error("관리자 데이터 조회 중 오류가 발생했어. Supabase 설정을 다시 확인해줘.")
+            st.error("관리자 데이터 조회 중 오류가 발생했어. Supabase 설정이나 정책을 다시 확인해줘.")
             st.exception(e)
 
     else:

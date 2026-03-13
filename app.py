@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 st.set_page_config(
     page_title="📮 2-5 익명 건의함",
@@ -14,7 +15,7 @@ GET_URL = st.secrets["sheetdb"]["get_url"].strip()
 ADMIN_PASSWORD = st.secrets["admin"]["password"].strip()
 
 def save_submission(title: str, content: str):
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = "'" + datetime.now(ZoneInfo("Asia/Seoul")).strftime("%Y-%m-%d %H:%M:%S")
 
     payload = {
         "data": [
@@ -90,10 +91,11 @@ if mode == "건의사항 제출":
 
 else:
     st.title("🔐 관리자 페이지")
-    admin_password = st.text_input("비밀번호", type="password")
+    admin_password = st.text_input("관리자 비밀번호", type="password")
 
     if admin_password == ADMIN_PASSWORD:
         st.success("인증 완료")
+        st.snow()
 
         try:
             df = load_submissions()

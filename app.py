@@ -94,7 +94,6 @@ else:
 
     if admin_password == ADMIN_PASSWORD:
         st.success("인증 완료")
-        st.snow()
 
         try:
             df = load_submissions()

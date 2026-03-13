@@ -21,8 +21,7 @@ def save_submission(title: str, content: str):
             {
                 "created_at": now,
                 "title": title,
-                "content": content,
-                "status": "미처리"
+                "content": content
             }
         ]
     }
@@ -36,7 +35,7 @@ def load_submissions() -> pd.DataFrame:
         GET_URL,
         params={
             "sort_by": "created_at",
-            "sort_order": "desc"
+            "sort_order": "asc"
         },
         timeout=10
     )
@@ -49,7 +48,7 @@ def load_submissions() -> pd.DataFrame:
 
     df = pd.DataFrame(data)
 
-    wanted_cols = ["created_at", "title", "content", "status"]
+    wanted_cols = ["created_at", "title", "content"]
     existing_cols = [col for col in wanted_cols if col in df.columns]
 
     if existing_cols:

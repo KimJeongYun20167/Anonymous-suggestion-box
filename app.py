@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-from supabase import create_client, Client
+import requests
+from datetime import datetime
 
 st.set_page_config(
     page_title="📮 2-5 익명 건의함",
@@ -9,37 +10,48 @@ st.set_page_config(
 )
 
 # -----------------------
-# Supabase 연결
+# SheetDB 설정
 # -----------------------
-@st.cache_resource
-def init_supabase() -> Client:
-    url = st.secrets["supabase"]["url"].strip()
-    key = st.secrets["supabase"]["key"].strip()
-    return create_client(url, key)
-
-supabase = init_supabase()
+POST_URL = st.secrets["sheetdb"]["post_url"].strip()
+GET_URL = st.secrets["sheetdb"]["get_url"].strip()
 
 # -----------------------
-# DB 함수
+# 저장 / 불러오기 함수
 # -----------------------
 def save_submission(title: str, content: str):
-    data = {
-        "title": title,
-        "content": content,
-        "status": "미처리"
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    payload = {
+        "data": [
+            {
+                "created_at": now,
+                "title": title,
+                "content": content,
+                "status": "미처리"
+            }
+        ]
     }
-    response = supabase.table("suggestions").insert(data).execute()
-    return response
+
+    response = requests.post(POST_URL, json=payload, timeout=10)
+    response.raise_for_status()
+    return response.json()
 
 def load_submissions():
-    response = (
-        supabase
-        .table("suggestions")
-        .select("*")
-        .order("created_at", desc=True)
-        .execute()
+    response = requests.get(
+        GET_URL,
+        params={
+            "sort_by": "created_at",
+            "sort_order": "desc"
+        },
+        timeout=10
     )
-    return pd.DataFrame(response.data)
+    response.raise_for_status()
+
+    data = response.json()
+    if not data:
+        return pd.DataFrame()
+
+    return pd.DataFrame(data)
 
 # -----------------------
 # 사이드바 메뉴
@@ -51,7 +63,7 @@ mode = st.sidebar.radio("메뉴", ["학생용 제출", "관리자 페이지"])
 # -----------------------
 if mode == "학생용 제출":
     st.title("📮 2-5 익명 건의함")
-    st.write("건의사항은 익명으로만 보이니 자유롭게 의견을 남겨줘!")
+    st.write("건의사항은 익명으로 보이니 자유롭게 의견을 남겨줘!")
 
     with st.form("suggestion_form"):
         title = st.text_input("제목")
@@ -66,8 +78,11 @@ if mode == "학생용 제출":
                 save_submission(title.strip(), content.strip())
                 st.success("제출 완료!")
                 st.balloons()
+            except requests.HTTPError as e:
+                st.error("제출 요청이 실패했어.")
+                st.exception(e)
             except Exception as e:
-                st.error("제출 중 오류가 발생했어. Supabase 설정이나 정책을 다시 확인해줘.")
+                st.error("제출 중 오류가 발생했어.")
                 st.exception(e)
 
 # -----------------------
@@ -86,12 +101,15 @@ else:
             if df.empty:
                 st.info("제출된 글이 아직 없어.")
             else:
-                wanted_cols = ["id", "created_at", "title", "content", "status"]
+                wanted_cols = ["created_at", "title", "content", "status"]
                 existing_cols = [col for col in wanted_cols if col in df.columns]
                 df = df[existing_cols]
                 st.dataframe(df, use_container_width=True)
+        except requests.HTTPError as e:
+            st.error("관리자 데이터 조회 요청이 실패했어.")
+            st.exception(e)
         except Exception as e:
-            st.error("관리자 데이터 조회 중 오류가 발생했어. Supabase 설정이나 정책을 다시 확인해줘.")
+            st.error("관리자 데이터 조회 중 오류가 발생했어.")
             st.exception(e)
 
     else:

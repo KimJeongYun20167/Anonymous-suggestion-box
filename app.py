@@ -68,7 +68,7 @@ def load_submissions() -> pd.DataFrame:
 # -----------------------
 # 사이드바 메뉴
 # -----------------------
-mode = st.sidebar.radio("메뉴", ["학생용 제출", "관리자 페이지"])
+mode = st.sidebar.radio("탭", ["건의사항 제출", "관리자 페이지"])
 
 # -----------------------
 # 학생용 페이지
@@ -134,4 +134,4 @@ else:
         if admin_password:
             st.error("비밀번호가 올바르지 않아!")
         else:
-            st.info("관리자 비밀번호를 입력해줘.")
+            st.info("비밀번호를 입력")

@@ -60,7 +60,7 @@ def load_submissions() -> pd.DataFrame:
 mode = st.sidebar.radio("탭", ["건의사항 제출", "관리자 페이지"])
 
 if mode == "건의사항 제출":
-    st.title("📮 건의사항 제출")
+    st.title("📮 2-5 익명 건의함")
     st.write("건의사항은 익명으로 보이니 자유롭게 남겨줘!")
 
     with st.form("suggestion_form"):
@@ -95,6 +95,7 @@ else:
 
     if admin_password == ADMIN_PASSWORD:
         st.success("인증 완료")
+        st.snow()
 
         try:
             df = load_submissions()

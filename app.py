@@ -92,7 +92,8 @@ if mode == "학생용 제출":
             try:
                 save_submission(title, content)
                 st.success("제출 완료!")
-                st.balloons()
+                st.snow()
+                #st.balloons()
             except requests.HTTPError as e:
                 st.error("제출 요청이 실패했어.")
                 st.exception(e)

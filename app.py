@@ -9,16 +9,10 @@ st.set_page_config(
     layout="centered"
 )
 
-# -----------------------
-# Secrets 불러오기
-# -----------------------
 POST_URL = st.secrets["sheetdb"]["post_url"].strip()
 GET_URL = st.secrets["sheetdb"]["get_url"].strip()
 ADMIN_PASSWORD = st.secrets["admin"]["password"].strip()
 
-# -----------------------
-# SheetDB 함수
-# -----------------------
 def save_submission(title: str, content: str):
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -36,7 +30,6 @@ def save_submission(title: str, content: str):
     response = requests.post(POST_URL, json=payload, timeout=10)
     response.raise_for_status()
     return response.json()
-
 
 def load_submissions() -> pd.DataFrame:
     response = requests.get(
@@ -64,17 +57,10 @@ def load_submissions() -> pd.DataFrame:
 
     return df
 
-
-# -----------------------
-# 사이드바 메뉴
-# -----------------------
 mode = st.sidebar.radio("탭", ["건의사항 제출", "관리자 페이지"])
 
-# -----------------------
-# 학생용 페이지
-# -----------------------
-if mode == "학생용 제출":
-    st.title("📮 2-5 익명 건의함")
+if mode == "건의사항 제출":
+    st.title("📮 건의사항 제출")
     st.write("건의사항은 익명으로 보이니 자유롭게 남겨줘!")
 
     with st.form("suggestion_form"):
@@ -103,15 +89,12 @@ if mode == "학생용 제출":
                 st.error("제출 중 오류가 발생했어.")
                 st.exception(e)
 
-# -----------------------
-# 관리자 페이지
-# -----------------------
 else:
     st.title("🔐 관리자 페이지")
     admin_password = st.text_input("관리자 비밀번호", type="password")
 
     if admin_password == ADMIN_PASSWORD:
-        st.success("관리자 인증 완료")
+        st.success("인증 완료")
 
         try:
             df = load_submissions()
@@ -120,6 +103,7 @@ else:
                 st.info("제출된 글이 아직 없어.")
             else:
                 st.dataframe(df, use_container_width=True)
+
         except requests.HTTPError as e:
             st.error("관리자 데이터 조회 요청이 실패했어.")
             st.exception(e)
@@ -134,4 +118,4 @@ else:
         if admin_password:
             st.error("비밀번호가 올바르지 않아!")
         else:
-            st.info("비밀번호를 입력")
+            st.info("비밀번호를 입력해줘.")

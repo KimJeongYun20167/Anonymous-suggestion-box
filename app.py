@@ -100,22 +100,11 @@ label, .stTextInput label, .stTextArea label {
 div[data-testid="stFormSubmitButton"] > button {
     border-radius: 999px !important;
     border: none !important;
-    background: linear-gradient(135deg, #8dbd97 0%, #79ad84 100%) !important;
+    background: linear-gradient(135deg, #5fa86d 0%, #4f9960 100%) !important;
     color: white !important;
     font-weight: 700 !important;
     padding: 0.6rem 1.2rem !important;
-    box-shadow: 0 8px 18px rgba(121, 173, 132, 0.28) !important;
-}
-.stButton > button:hover,
-div[data-testid="stFormSubmitButton"] > button:hover {
-    background: linear-gradient(135deg, #549d63 0%, #468a56 100%) !important;
-    filter: none !important;
-    transform: translateY(-1px);
-}
-.stButton > button:hover,
-div[data-testid="stFormSubmitButton"] > button:hover {
-    filter: brightness(1.03);
-    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(79, 153, 96, 0.28) !important;
 }
 
 /* 데이터프레임 */

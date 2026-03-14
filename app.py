@@ -5,8 +5,8 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 st.set_page_config(
-    page_title="📮 2-8 익명 건의함",
-    page_icon="🍀",
+    page_title="📮 2-5 익명 건의함",
+    page_icon="📮",
     layout="centered"
 )
 
@@ -18,7 +18,7 @@ st.markdown("""
 /* 전체 배경 */
 .stApp {
     background:
-        linear-gradient(rgba(248,247,242,0.88), rgba(248,247,242,0.88)),
+        linear-gradient(rgba(248,247,242,0.93), rgba(248,247,242,0.93)),
         url("https://raw.githubusercontent.com/KimJeongYun20167/Anonymous-suggestion-box/main/clover_bg.jpg");
     background-size: 320px auto;
     background-repeat: repeat;
@@ -34,7 +34,7 @@ st.markdown("""
 
 /* 카드 */
 .main-card {
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.90);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     padding: 1.45rem 1.2rem;
@@ -71,7 +71,7 @@ div[data-testid="stForm"] {
     border: 1px solid rgba(160, 180, 160, 0.22);
     border-radius: 22px;
     padding: 1.1rem 1.1rem 0.8rem 1.1rem;
-    background: rgba(255,255,255,0.90);
+    background: rgba(255,255,255,0.92);
     box-shadow: 0 8px 24px rgba(0,0,0,0.04);
 }
 
@@ -123,7 +123,7 @@ div[data-testid="stDataFrame"] {
 
 /* 사이드바 */
 section[data-testid="stSidebar"] {
-    background: rgba(246,245,239,0.92);
+    background: rgba(246,245,239,0.94);
     border-right: 1px solid rgba(120, 140, 120, 0.10);
 }
 
@@ -236,8 +236,8 @@ mode = st.sidebar.radio("", ["건의사항 제출", "관리자 페이지"])
 if mode == "건의사항 제출":
     st.markdown("""
     <div class="main-card">
-        <div class="soft-badge">summer note · anonymous</div>
-        <div class="section-title">🍀 2-8 익명 건의함</div>
+        <div class="soft-badge">*¨*•.¸¸♪</div>
+        <div class="section-title">📮 2-5 익명 건의함</div>
         <div class="section-sub">
             하고 싶은 말, 바라는 점, 불편했던 점을 편하게 남겨줘.
         </div>
@@ -250,7 +250,7 @@ if mode == "건의사항 제출":
     with st.form("suggestion_form"):
         title = st.text_input(
             "제목",
-            placeholder="예: 급식 건의, 교실 환경, 수업 의견"
+            placeholder=""
         )
         content = st.text_area(
             "내용",

@@ -5,8 +5,8 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 st.set_page_config(
-    page_title="📮 2-5 익명 건의함",
-    page_icon="📮",
+    page_title="📮 2-8 익명 건의함",
+    page_icon="🍀",
     layout="centered"
 )
 
@@ -15,53 +15,156 @@ st.set_page_config(
 # -----------------------
 st.markdown("""
 <style>
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    max-width: 820px;
+/* 전체 배경 */
+.stApp {
+    background:
+        radial-gradient(circle at top left, rgba(185, 220, 190, 0.30), transparent 28%),
+        radial-gradient(circle at top right, rgba(255, 166, 138, 0.20), transparent 24%),
+        linear-gradient(180deg, #f8f7f2 0%, #f6f4ed 100%);
 }
 
+/* 메인 컨테이너 */
+.block-container {
+    padding-top: 2.2rem;
+    padding-bottom: 2rem;
+    max-width: 860px;
+}
+
+/* 카드 */
 .main-card {
-    background-color: #ffffff;
-    padding: 1.4rem 1.2rem;
-    border-radius: 18px;
-    border: 1px solid #e9ecef;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 1.45rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(170, 190, 170, 0.24);
+    box-shadow: 0 10px 30px rgba(80, 90, 80, 0.08);
     margin-bottom: 1rem;
 }
 
+/* 제목/서브텍스트 */
 .section-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 800;
-    margin-bottom: 0.3rem;
+    letter-spacing: -0.02em;
+    color: #36553b;
+    margin-bottom: 0.35rem;
 }
 
 .section-sub {
-    color: #6b7280;
-    font-size: 0.98rem;
-    margin-bottom: 0.2rem;
+    color: #5f6b60;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.25rem;
 }
 
 .small-note {
     font-size: 0.88rem;
-    color: #6b7280;
+    color: #7d877d;
+    line-height: 1.5;
 }
 
+/* 폼 */
 div[data-testid="stForm"] {
-    border: 1px solid #ececec;
-    border-radius: 16px;
-    padding: 1rem 1rem 0.6rem 1rem;
-    background-color: #fcfcfc;
+    border: 1px solid rgba(160, 180, 160, 0.22);
+    border-radius: 22px;
+    padding: 1.1rem 1.1rem 0.8rem 1.1rem;
+    background: rgba(255,255,255,0.78);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
 }
 
+/* 입력창 */
+div[data-baseweb="input"] > div,
+div[data-baseweb="textarea"] > div {
+    border-radius: 16px !important;
+    border: 1px solid #dfe6dc !important;
+    background-color: #fcfcf8 !important;
+}
+
+div[data-baseweb="input"] > div:focus-within,
+div[data-baseweb="textarea"] > div:focus-within {
+    border: 1px solid #9cc6a3 !important;
+    box-shadow: 0 0 0 1px #9cc6a3 !important;
+}
+
+/* 라벨 */
+label, .stTextInput label, .stTextArea label {
+    color: #49604d !important;
+    font-weight: 600 !important;
+}
+
+/* 버튼 */
+.stButton > button,
+div[data-testid="stFormSubmitButton"] > button {
+    border-radius: 999px !important;
+    border: none !important;
+    background: linear-gradient(135deg, #8dbd97 0%, #79ad84 100%) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 0.6rem 1.2rem !important;
+    box-shadow: 0 8px 18px rgba(121, 173, 132, 0.28) !important;
+}
+
+.stButton > button:hover,
+div[data-testid="stFormSubmitButton"] > button:hover {
+    filter: brightness(1.03);
+    transform: translateY(-1px);
+}
+
+/* 데이터프레임 */
 div[data-testid="stDataFrame"] {
-    border-radius: 14px;
+    border-radius: 18px;
     overflow: hidden;
+    border: 1px solid rgba(170, 185, 170, 0.18);
+    background: rgba(255,255,255,0.9);
 }
 
+/* 사이드바 */
+section[data-testid="stSidebar"] {
+    background:
+        linear-gradient(180deg, #f4f2ea 0%, #f6f5ef 100%);
+    border-right: 1px solid rgba(120, 140, 120, 0.10);
+}
+
+section[data-testid="stSidebar"] .stRadio label {
+    color: #4e5f51 !important;
+    font-weight: 600;
+}
+
+/* 알림 박스 둥글게 */
+div[data-testid="stAlert"] {
+    border-radius: 16px;
+}
+
+/* 캡션 */
+[data-testid="stCaptionContainer"] {
+    color: #6f786f !important;
+}
+
+/* 구분선 */
 hr {
     margin-top: 1rem;
     margin-bottom: 1rem;
+    border: none;
+    height: 1px;
+    background: rgba(120,140,120,0.12);
+}
+
+/* 작은 배지 느낌 */
+.soft-badge {
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: #eef5ee;
+    color: #52705a;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+}
+
+/* 관리자 제목용 토마토 포인트 */
+.tomato {
+    color: #d86d5c;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -93,7 +196,6 @@ def save_submission(title: str, content: str):
     response.raise_for_status()
     return response.json()
 
-
 def load_submissions() -> pd.DataFrame:
     response = requests.get(
         GET_URL,
@@ -120,11 +222,11 @@ def load_submissions() -> pd.DataFrame:
 
     return df
 
-
 # -----------------------
 # 사이드바
 # -----------------------
-mode = st.sidebar.radio("탭", ["건의사항 제출", "관리자 페이지"])
+st.sidebar.markdown("### 🍀 메뉴")
+mode = st.sidebar.radio("", ["건의사항 제출", "관리자 페이지"])
 
 # -----------------------
 # 학생용 페이지
@@ -132,18 +234,22 @@ mode = st.sidebar.radio("탭", ["건의사항 제출", "관리자 페이지"])
 if mode == "건의사항 제출":
     st.markdown("""
     <div class="main-card">
-        <div class="section-title">📮 2-8 익명 건의함</div>
+        <div class="soft-badge">summer note · anonymous</div>
+        <div class="section-title">🍀 2-8 익명 건의함</div>
         <div class="section-sub">
-            하고 싶은 말, 바라는 점, 불편했던 점을 자유롭게 남겨줘.
+            하고 싶은 말, 바라는 점, 불편했던 점을 편하게 남겨줘.
         </div>
         <div class="small-note">
-            익명으로 제출되며, 제목과 내용을 모두 입력해야 제출돼.
+            익명으로 제출되며, 제목과 내용을 모두 입력해야 등록돼.
         </div>
     </div>
     """, unsafe_allow_html=True)
 
     with st.form("suggestion_form"):
-        title = st.text_input("제목", placeholder="예: 급식 건의, 교실 환경, 수업 의견")
+        title = st.text_input(
+            "제목",
+            placeholder="예: 급식 건의, 교실 환경, 수업 의견"
+        )
         content = st.text_area(
             "내용",
             height=220,
@@ -178,7 +284,8 @@ if mode == "건의사항 제출":
 else:
     st.markdown("""
     <div class="main-card">
-        <div class="section-title">🔐 관리자 페이지</div>
+        <div class="soft-badge">admin only</div>
+        <div class="section-title"><span class="tomato">🍅</span> 관리자 페이지</div>
         <div class="section-sub">
             제출된 건의사항을 확인하는 공간이야.
         </div>
@@ -188,11 +295,14 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-    admin_password = st.text_input("관리자 비밀번호", type="password", placeholder="비밀번호 입력")
+    admin_password = st.text_input(
+        "관리자 비밀번호",
+        type="password",
+        placeholder="비밀번호 입력"
+    )
 
     if admin_password == ADMIN_PASSWORD:
         st.success("인증 완료")
-        st.snow()
 
         try:
             df = load_submissions()

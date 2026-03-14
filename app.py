@@ -245,11 +245,6 @@ if mode == "건의사항 제출":
     </div>
     """, unsafe_allow_html=True)
 
-    if st.session_state.get("submit_done"):
-        st.success("제출 완료")
-        st.balloons()
-        del st.session_state["submit_done"]
-
     with st.form("suggestion_form"):
         title = st.text_input(
             "제목",
@@ -271,7 +266,6 @@ if mode == "건의사항 제출":
         else:
             try:
                 save_submission(title, content)
-                st.session_state["submit_done"] = True
                 st.rerun()
             except requests.HTTPError as e:
                 st.error("제출 요청 실패")

@@ -275,13 +275,13 @@ if mode == "건의사항 제출":
                 st.success("제출 완료")
                 st.balloons()
             except requests.HTTPError as e:
-                st.error("제출 요청이 실패했어.")
+                st.error("제출 요청 실패")
                 st.exception(e)
             except requests.RequestException as e:
-                st.error("네트워크 요청 중 오류가 발생했어.")
+                st.error("네트워크 요청 중 오류 발생")
                 st.exception(e)
             except Exception as e:
-                st.error("제출 중 오류가 발생했어.")
+                st.error("제출 중 오류 발생.")
                 st.exception(e)
 
 # -----------------------
@@ -331,6 +331,6 @@ else:
 
     else:
         if admin_password:
-            st.error("비밀번호가 올바르지 않아!")
+            st.error("올바르지 않은 비밀번호")
         else:
-            st.info("비밀번호를 입력해줘.")
+            st.info("로그인")

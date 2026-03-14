@@ -245,28 +245,43 @@ if mode == "건의사항 제출":
     </div>
     """, unsafe_allow_html=True)
 
+    if st.session_state.get("show_done_toast"):
+        st.toast("제출 완료")
+        st.balloons()
+        del st.session_state["show_done_toast"]
+
     with st.form("suggestion_form"):
         title = st.text_input(
             "제목",
-            placeholder=""
+            placeholder="",
+            key="title_input"
         )
         content = st.text_area(
             "내용",
             height=220,
-            placeholder="하고 싶은 말을 자유롭게 적어줘!"
+            placeholder="하고 싶은 말을 자유롭게 적어줘!",
+            key="content_input"
         )
         submitted = st.form_submit_button("제출하기", use_container_width=True)
 
     if submitted:
-        title = title.strip()
-        content = content.strip()
+        title = st.session_state["title_input"].strip()
+        content = st.session_state["content_input"].strip()
 
         if not title or not content:
             st.error("제목과 내용을 모두 입력해줘.")
         else:
             try:
                 save_submission(title, content)
+
+                # 입력값 초기화
+                st.session_state["title_input"] = ""
+                st.session_state["content_input"] = ""
+
+                # 다음 렌더에서 팝업 느낌 알림 + 풍선
+                st.session_state["show_done_toast"] = True
                 st.rerun()
+
             except requests.HTTPError as e:
                 st.error("제출 요청 실패")
                 st.exception(e)

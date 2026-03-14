@@ -257,7 +257,7 @@ if mode == "건의사항 제출":
         )
         submitted = st.form_submit_button("제출하기", use_container_width=True)
 
-    if submitted:
+        if submitted:
         title = title.strip()
         content = content.strip()
 
@@ -266,8 +266,8 @@ if mode == "건의사항 제출":
         else:
             try:
                 save_submission(title, content)
-                st.success("제출 완료")
-                st.balloons()
+                st.session_state["submit_done"] = True
+                st.rerun()
             except requests.HTTPError as e:
                 st.error("제출 요청 실패")
                 st.exception(e)

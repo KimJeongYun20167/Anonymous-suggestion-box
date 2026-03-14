@@ -16,13 +16,69 @@ st.set_page_config(
 st.markdown("""
 <style>
 /* 전체 배경 */
+
+st.markdown("""
+<style>
 .stApp {
     background:
-        radial-gradient(circle at top left, rgba(185, 220, 190, 0.30), transparent 28%),
-        radial-gradient(circle at top right, rgba(255, 166, 138, 0.20), transparent 24%),
-        linear-gradient(180deg, #f8f7f2 0%, #f6f4ed 100%);
+        linear-gradient(rgba(248,247,242,0.88), rgba(248,247,242,0.88)),
+        url("https://raw.githubusercontent.com/KimJeongYun20167/Anonymous-suggestion-box/main/clover_bg.jpg");
+    background-size: 320px auto;
+    background-repeat: repeat;
+    background-attachment: fixed;
 }
 
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    max-width: 820px;
+}
+
+.main-card {
+    background-color: rgba(255, 255, 255, 0.88);
+    padding: 1.4rem 1.2rem;
+    border-radius: 18px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+}
+
+.section-sub {
+    color: #6b7280;
+    font-size: 0.98rem;
+    margin-bottom: 0.2rem;
+}
+
+.small-note {
+    font-size: 0.88rem;
+    color: #6b7280;
+}
+
+div[data-testid="stForm"] {
+    border: 1px solid #ececec;
+    border-radius: 16px;
+    padding: 1rem 1rem 0.6rem 1rem;
+    background-color: rgba(252,252,252,0.90);
+}
+
+div[data-testid="stDataFrame"] {
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: rgba(255,255,255,0.90);
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+</style>
+""", unsafe_allow_html=True)
 /* 메인 컨테이너 */
 .block-container {
     padding-top: 2.2rem;

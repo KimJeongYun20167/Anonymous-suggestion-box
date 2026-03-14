@@ -18,7 +18,7 @@ st.markdown("""
 /* 전체 배경 */
 .stApp {
     background:
-        linear-gradient(rgba(248,247,242,0.9), rgba(248,247,242,0.9)),
+        linear-gradient(rgba(248,247,242,0.7), rgba(248,247,242,0.7)),
         url("https://raw.githubusercontent.com/KimJeongYun20167/Anonymous-suggestion-box/main/clover_bg.jpg");
     background-size: 320px auto;
     background-repeat: repeat;
@@ -259,7 +259,7 @@ if mode == "건의사항 제출":
         content = st.text_area(
             "내용",
             height=220,
-            placeholder="하고 싶은 말을 자유롭게 적어줘."
+            placeholder="하고 싶은 말을 자유롭게 적어줘!"
         )
         submitted = st.form_submit_button("제출하기", use_container_width=True)
 
@@ -272,7 +272,7 @@ if mode == "건의사항 제출":
         else:
             try:
                 save_submission(title, content)
-                st.success("제출 완료! 의견이 잘 전달됐어.")
+                st.success("제출 완료")
                 st.balloons()
             except requests.HTTPError as e:
                 st.error("제출 요청이 실패했어.")
@@ -320,13 +320,13 @@ else:
                 st.dataframe(df, use_container_width=True)
 
         except requests.HTTPError as e:
-            st.error("관리자 데이터 조회 요청이 실패했어.")
+            st.error("관리자 데이터 조회 요청 실패")
             st.exception(e)
         except requests.RequestException as e:
-            st.error("네트워크 요청 중 오류가 발생했어.")
+            st.error("네트워크 요청 중 오류가 발생")
             st.exception(e)
         except Exception as e:
-            st.error("관리자 데이터 조회 중 오류가 발생했어.")
+            st.error("관리자 데이터 조회 중 오류 발생")
             st.exception(e)
 
     else:

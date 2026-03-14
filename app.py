@@ -245,6 +245,11 @@ if mode == "건의사항 제출":
     </div>
     """, unsafe_allow_html=True)
 
+    if st.session_state.get("submit_done"):
+        st.success("제출 완료")
+        st.balloons()
+        del st.session_state["submit_done"]
+
     with st.form("suggestion_form"):
         title = st.text_input(
             "제목",
@@ -257,7 +262,7 @@ if mode == "건의사항 제출":
         )
         submitted = st.form_submit_button("제출하기", use_container_width=True)
 
-        if submitted:
+    if submitted:
         title = title.strip()
         content = content.strip()
 
@@ -277,7 +282,6 @@ if mode == "건의사항 제출":
             except Exception as e:
                 st.error("제출 중 오류 발생.")
                 st.exception(e)
-
 # -----------------------
 # 관리자 페이지
 # -----------------------

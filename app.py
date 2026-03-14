@@ -221,6 +221,10 @@ def load_submissions() -> pd.DataFrame:
     if existing_cols:
         df = df[existing_cols]
 
+    # 1부터 시작하는 인덱스
+    df = df.reset_index(drop=True)
+    df.index = df.index + 1
+
     return df
 
 
@@ -236,7 +240,7 @@ mode = st.sidebar.radio("", ["건의사항 제출", "관리자 페이지"])
 if mode == "건의사항 제출":
     st.markdown("""
     <div class="main-card">
-        <div class="soft-badge">*¨*•.¸¸♪</div>
+        <div class="soft-badge">*¨*•.¸¸♪*¨*•.¸¸♪</div>
         <div class="section-title">📮 2-5 익명 건의함</div>
         <div class="section-sub">
             하고 싶은 말, 바라는 점, 불편했던 점을 편하게 남겨줘.
@@ -289,7 +293,7 @@ else:
         <div class="soft-badge">admin only</div>
         <div class="section-title"><span class="tomato">🍅</span> 관리자 페이지</div>
         <div class="section-sub">
-            제출된 건의사항을 확인하는 공간이야.
+            제출된 건의사항을 확인하는 공간
         </div>
         <div class="small-note">
             관리자 비밀번호를 입력하면 목록을 볼 수 있어.
@@ -313,8 +317,7 @@ else:
                 st.info("제출된 글이 아직 없어.")
             else:
                 st.markdown("### 제출 목록")
-                st.caption("오래된 순서부터 표시돼.")
-                st.dataframe(df, use_container_width=True, hide_index=True)
+                st.dataframe(df, use_container_width=True)
 
         except requests.HTTPError as e:
             st.error("관리자 데이터 조회 요청이 실패했어.")

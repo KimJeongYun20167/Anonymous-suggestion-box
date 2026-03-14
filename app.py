@@ -106,7 +106,12 @@ div[data-testid="stFormSubmitButton"] > button {
     padding: 0.6rem 1.2rem !important;
     box-shadow: 0 8px 18px rgba(121, 173, 132, 0.28) !important;
 }
-
+.stButton > button:hover,
+div[data-testid="stFormSubmitButton"] > button:hover {
+    background: linear-gradient(135deg, #549d63 0%, #468a56 100%) !important;
+    filter: none !important;
+    transform: translateY(-1px);
+}
 .stButton > button:hover,
 div[data-testid="stFormSubmitButton"] > button:hover {
     filter: brightness(1.03);

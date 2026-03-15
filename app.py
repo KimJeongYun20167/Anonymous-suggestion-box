@@ -18,7 +18,7 @@ st.markdown("""
 /* 전체 배경 */
 .stApp {
     background:
-        linear-gradient(rgba(248,247,242,0.88), rgba(248,247,242,0.88)),
+        linear-gradient(rgba(248,247,242,0.94), rgba(248,247,242,0.94)),
         url("https://raw.githubusercontent.com/KimJeongYun20167/Anonymous-suggestion-box/main/clover_bg.jpg");
     background-size: 320px auto;
     background-repeat: repeat;

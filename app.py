@@ -35,8 +35,8 @@ st.markdown("""
 /* 카드 */
 .main-card {
     background: rgba(255, 255, 255, 0.90);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: none;
+   # -webkit-backdrop-filter: blur(4px);
     padding: 1.45rem 1.2rem;
     border-radius: 24px;
     border: 1px solid rgba(170, 190, 170, 0.22);

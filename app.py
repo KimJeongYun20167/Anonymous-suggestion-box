@@ -15,28 +15,32 @@ st.set_page_config(
 # -----------------------
 st.markdown("""
 <style>
-/* 전체 배경 - 카톡 웹뷰 호환용 */
+/* 전체 배경 */
 .stApp {
-    background-color: #f8f7f2;
-    background-image: url("https://raw.githubusercontent.com/KimJeongYun20167/Anonymous-suggestion-box/main/clover_bg.jpg");
+    background:
+        linear-gradient(rgba(248,247,242,0.88), rgba(248,247,242,0.88)),
+        url("https://raw.githubusercontent.com/KimJeongYun20167/Anonymous-suggestion-box/main/clover_bg.jpg");
     background-size: 320px auto;
     background-repeat: repeat;
+    background-attachment: fixed;
 }
 
 /* 메인 컨테이너 */
 .block-container {
-    padding-top: 2rem;
+    padding-top: 2.2rem;
     padding-bottom: 2rem;
     max-width: 860px;
 }
 
-/* 카드 - 투명도/블러 제거 */
+/* 카드 */
 .main-card {
-    background: #ffffff;
-    padding: 1.35rem 1.2rem;
-    border-radius: 22px;
-    border: 1px solid #e7ece4;
-    box-shadow: 0 6px 18px rgba(80, 90, 80, 0.06);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 1.45rem 1.2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(170, 190, 170, 0.22);
+    box-shadow: 0 10px 30px rgba(80, 90, 80, 0.08);
     margin-bottom: 1rem;
 }
 
@@ -64,11 +68,11 @@ st.markdown("""
 
 /* 폼 */
 div[data-testid="stForm"] {
-    border: 1px solid #e6ebe3;
+    border: 1px solid rgba(160, 180, 160, 0.22);
     border-radius: 22px;
     padding: 1.1rem 1.1rem 0.8rem 1.1rem;
-    background: #ffffff;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+    background: rgba(255,255,255,0.92);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
 }
 
 /* 입력창 */
@@ -77,7 +81,6 @@ div[data-baseweb="textarea"] > div {
     border-radius: 16px !important;
     border: 1px solid #dfe6dc !important;
     background-color: #fcfcf8 !important;
-    box-shadow: none !important;
 }
 
 div[data-baseweb="input"] > div:focus-within,
@@ -100,26 +103,27 @@ div[data-testid="stFormSubmitButton"] > button {
     background: linear-gradient(135deg, #5fa86d 0%, #4f9960 100%) !important;
     color: white !important;
     font-weight: 700 !important;
-    padding: 0.68rem 1.2rem !important;
-    box-shadow: 0 8px 18px rgba(79, 153, 96, 0.22) !important;
+    padding: 0.6rem 1.2rem !important;
+    box-shadow: 0 8px 18px rgba(79, 153, 96, 0.28) !important;
 }
 
 .stButton > button:hover,
 div[data-testid="stFormSubmitButton"] > button:hover {
-    filter: brightness(1.02);
+    filter: brightness(1.03);
+    transform: translateY(-1px);
 }
 
 /* 데이터프레임 */
 div[data-testid="stDataFrame"] {
     border-radius: 18px;
     overflow: hidden;
-    border: 1px solid #e2e8df;
-    background: #ffffff;
+    border: 1px solid rgba(170, 185, 170, 0.18);
+    background: rgba(255,255,255,0.92);
 }
 
 /* 사이드바 */
 section[data-testid="stSidebar"] {
-    background: #f6f5ef;
+    background: rgba(246,245,239,0.94);
     border-right: 1px solid rgba(120, 140, 120, 0.10);
 }
 

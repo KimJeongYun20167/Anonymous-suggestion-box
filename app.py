@@ -15,32 +15,28 @@ st.set_page_config(
 # -----------------------
 st.markdown("""
 <style>
-/* 전체 배경 */
+/* 전체 배경 - 카톡 웹뷰 호환용 */
 .stApp {
-    background:
-        linear-gradient(rgba(248,247,242,0.7), rgba(248,247,242,0.7)),
-        url("https://raw.githubusercontent.com/KimJeongYun20167/Anonymous-suggestion-box/main/clover_bg.jpg");
+    background-color: #f8f7f2;
+    background-image: url("https://raw.githubusercontent.com/KimJeongYun20167/Anonymous-suggestion-box/main/clover_bg.jpg");
     background-size: 320px auto;
     background-repeat: repeat;
-    background-attachment: fixed;
 }
 
 /* 메인 컨테이너 */
 .block-container {
-    padding-top: 2.2rem;
+    padding-top: 2rem;
     padding-bottom: 2rem;
     max-width: 860px;
 }
 
-/* 카드 */
+/* 카드 - 투명도/블러 제거 */
 .main-card {
-    background: rgba(255, 255, 255, 0.90);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    padding: 1.45rem 1.2rem;
-    border-radius: 24px;
-    border: 1px solid rgba(170, 190, 170, 0.22);
-    box-shadow: 0 10px 30px rgba(80, 90, 80, 0.08);
+    background: #ffffff;
+    padding: 1.35rem 1.2rem;
+    border-radius: 22px;
+    border: 1px solid #e7ece4;
+    box-shadow: 0 6px 18px rgba(80, 90, 80, 0.06);
     margin-bottom: 1rem;
 }
 
@@ -68,11 +64,11 @@ st.markdown("""
 
 /* 폼 */
 div[data-testid="stForm"] {
-    border: 1px solid rgba(160, 180, 160, 0.22);
+    border: 1px solid #e6ebe3;
     border-radius: 22px;
     padding: 1.1rem 1.1rem 0.8rem 1.1rem;
-    background: rgba(255,255,255,0.92);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.04);
 }
 
 /* 입력창 */
@@ -81,6 +77,7 @@ div[data-baseweb="textarea"] > div {
     border-radius: 16px !important;
     border: 1px solid #dfe6dc !important;
     background-color: #fcfcf8 !important;
+    box-shadow: none !important;
 }
 
 div[data-baseweb="input"] > div:focus-within,
@@ -103,21 +100,26 @@ div[data-testid="stFormSubmitButton"] > button {
     background: linear-gradient(135deg, #5fa86d 0%, #4f9960 100%) !important;
     color: white !important;
     font-weight: 700 !important;
-    padding: 0.6rem 1.2rem !important;
-    box-shadow: 0 8px 18px rgba(79, 153, 96, 0.28) !important;
+    padding: 0.68rem 1.2rem !important;
+    box-shadow: 0 8px 18px rgba(79, 153, 96, 0.22) !important;
+}
+
+.stButton > button:hover,
+div[data-testid="stFormSubmitButton"] > button:hover {
+    filter: brightness(1.02);
 }
 
 /* 데이터프레임 */
 div[data-testid="stDataFrame"] {
     border-radius: 18px;
     overflow: hidden;
-    border: 1px solid rgba(170, 185, 170, 0.18);
-    background: rgba(255,255,255,0.92);
+    border: 1px solid #e2e8df;
+    background: #ffffff;
 }
 
 /* 사이드바 */
 section[data-testid="stSidebar"] {
-    background: rgba(246,245,239,0.94);
+    background: #f6f5ef;
     border-right: 1px solid rgba(120, 140, 120, 0.10);
 }
 
@@ -215,7 +217,6 @@ def load_submissions() -> pd.DataFrame:
     if existing_cols:
         df = df[existing_cols]
 
-    # 1부터 시작하는 인덱스
     df = df.reset_index(drop=True)
     df.index = df.index + 1
 
@@ -245,6 +246,11 @@ if mode == "건의사항 제출":
     </div>
     """, unsafe_allow_html=True)
 
+    if st.session_state.get("show_done_toast"):
+        st.toast("제출 완료")
+        st.balloons()
+        del st.session_state["show_done_toast"]
+
     with st.form("suggestion_form", clear_on_submit=True):
         title = st.text_input(
             "제목",
@@ -266,8 +272,8 @@ if mode == "건의사항 제출":
         else:
             try:
                 save_submission(title, content)
-                st.toast("제출 완료")
-                st.balloons()
+                st.session_state["show_done_toast"] = True
+                st.rerun()
             except requests.HTTPError as e:
                 st.error("제출 요청 실패")
                 st.exception(e)
@@ -277,6 +283,7 @@ if mode == "건의사항 제출":
             except Exception as e:
                 st.error("제출 중 오류 발생.")
                 st.exception(e)
+
 # -----------------------
 # 관리자 페이지
 # -----------------------
